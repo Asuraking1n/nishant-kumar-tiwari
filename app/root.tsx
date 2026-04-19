@@ -19,7 +19,7 @@ export const links: Route.LinksFunction = () => [
   },
   {
     rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
+    href: "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap",
   },
 ];
 
@@ -29,6 +29,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#02060d" />
         <Meta />
         <Links />
       </head>
@@ -46,15 +47,15 @@ export default function App() {
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let message = "Oops!";
-  let details = "An unexpected error occurred.";
+  let message = "SYSTEM FAULT";
+  let details = "An unexpected subroutine exception occurred.";
   let stack: string | undefined;
 
   if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? "404" : "Error";
+    message = error.status === 404 ? "404 // SIGNAL LOST" : "ERR // SYSTEM";
     details =
       error.status === 404
-        ? "The requested page could not be found."
+        ? "Target coordinates not found in J.A.R.V.I.S. registry."
         : error.statusText || details;
   } else if (import.meta.env.DEV && error && error instanceof Error) {
     details = error.message;
@@ -62,14 +63,16 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   }
 
   return (
-    <main className="pt-16 p-4 container mx-auto">
-      <h1>{message}</h1>
-      <p>{details}</p>
-      {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
-          <code>{stack}</code>
-        </pre>
-      )}
+    <main className="min-h-screen p-8 flex flex-col items-center justify-center text-center">
+      <div className="hud-panel p-8 max-w-xl w-full">
+        <h1 className="hud-font text-3xl hud-text-glow mb-3">{message}</h1>
+        <p className="hud-mono text-sm text-cyan-200/80">{details}</p>
+        {stack && (
+          <pre className="w-full p-4 overflow-x-auto text-left hud-mono text-xs text-cyan-300/70 mt-4">
+            <code>{stack}</code>
+          </pre>
+        )}
+      </div>
     </main>
   );
 }
